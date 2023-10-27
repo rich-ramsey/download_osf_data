@@ -22,8 +22,8 @@ latest git version.
 At the moment, folks have a choice when they want to grab our code and data. 
 1) Go to the OSF and get it all, or 
 2) go to Git for most things and then go to 
-the OSF for the raw data, model objects or figures (this assumes of course that  
-they don't want to run the code locally themselves). 
+the OSF for the raw data, model objects or figures (this assumes of course that they 
+don't want to run the code locally themselves). 
 
 We want to streamline this process so that folks could get the code from GitHub 
 and then directly download the data from the OSF.
