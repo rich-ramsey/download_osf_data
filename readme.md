@@ -3,7 +3,7 @@ readme
 The aim of this project is to test how to download data from the open science
 framework (OSF) using R and embed that process into code that is kept on GitHub.
 
-We use the R package {osfr} : https://github.com/ropensci/osfr
+We use the R package {osfr} to download the data: https://github.com/ropensci/osfr
 
 ## Rather boring background context ##
 
@@ -20,7 +20,8 @@ That is, when you return to a project, you know that the latest version is the
 latest git version.
 
 At the moment, folks have a choice when they want to grab our code and data. 
-1) Go to the OSF and get it all, or 2) go to Git for most things and then go to 
+1) Go to the OSF and get it all, or 
+2) go to Git for most things and then go to 
 the OSF for the raw data, model objects or figures (this assumes of course that  
 they don't want to run the code locally themselves). 
 
