@@ -63,7 +63,7 @@ The same is true for downloading large model objects or anything else for that m
 So, as a modification to our workflow, it seems pretty trivial. e.g., run your code as
 normal from a local folder. Then at the very end, once the raw data is on the
 OSF, add a chunk with the relevant OSF download info., so that the raw data can
-be downloaded by anyone fro the OSF after downloading your code from GitHub.
+be downloaded by anyone from the OSF after downloading your code from GitHub.
 
 **Benefits of this workflow:**
 

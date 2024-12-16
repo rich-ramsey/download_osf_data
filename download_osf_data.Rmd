@@ -22,7 +22,7 @@ So, let's see if we can load data directly from the OSF using the R package
 ## install packages ##
 
 ```{r}
-# install.packages(c("tidyverse", "osfr"))
+# install.packages(c("tidyverse", "osfr", "here"))
 ```
 
 take a snapshot of loaded packages and update the lock.file using renv
@@ -35,7 +35,7 @@ take a snapshot of loaded packages and update the lock.file using renv
 ## load packages ##
 
 ```{r load-pkg}
-pkg <- c("tidyverse", "osfr")
+pkg <- c("tidyverse", "osfr", "here")
 
 lapply(pkg, library, character.only = TRUE)
 ```
@@ -51,8 +51,9 @@ osf_data <-
     osf_ls_files(pattern = "data") %>%
     osf_ls_files(pattern = "prior") %>%
     osf_ls_files(pattern = "d1") %>% 
-    osf_download(path = "./data/") ## set the path to download the data into
+    osf_download(path = "./data/", conflicts = "overwrite") ## set the path to download the data into, use overwrite if necessary
 head(osf_data)
+glimpse(osf_data)
 ```
 
 Now the file named d1.csv is downloaded to the folder name /data/ in the 
@@ -70,7 +71,83 @@ ok, so this works nicely.
 
 
 
+## test out some different scenarios ##
+
+e.g., download and create a new folder.
+This is useful for git projects because empty folders do not exist.
+
+let's see
+
+```{r}
+dir.create("data/new_folder/")
+osf_data <-
+  # retrieve the OSF (main) project
+  osf_retrieve_node("jc82t") %>% ## this is just one project picked at random
+  # list files in this repository - there must be a more efficient way than this...
+  osf_ls_files(pattern = "data") %>%
+  osf_ls_files(pattern = "prior") %>%
+  osf_ls_files(pattern = "d1") %>%
+  osf_download(path = "./data/new_folder/", conflicts = "overwrite")
+```
 
 
 
+## test out the tutorial data download ##
+
+sim1
+
+```{r}
+dir.create("data/eha_tutorial")
+dir.create("data/eha_tutorial/sim1")
+
+osf_eha_data <-
+  # retrieve the OSF (main) project
+  osf_retrieve_node("3dbcs") %>% ## this is just one project picked at random
+  # list files in this repository - there must be a more efficient way than this...
+  osf_ls_files(pattern = "Tutorial_4_planning") %>%
+  osf_ls_files(pattern = "data") %>%
+  osf_ls_files(pattern = "sim1") %>%
+  osf_ls_files(pattern = "sim1_data") %>%
+  osf_download(path = "./data/eha_tutorial/sim1/")
+```
+
+sim2
+
+```{r}
+dir.create("data/eha_tutorial/sim2")
+
+osf_eha_data <-
+  # retrieve the OSF (main) project
+  osf_retrieve_node("3dbcs") %>% ## this is just one project picked at random
+  # list files in this repository - there must be a more efficient way than this...
+  osf_ls_files(pattern = "Tutorial_4_planning") %>%
+  osf_ls_files(pattern = "data") %>%
+  osf_ls_files(pattern = "sim2") %>%
+  osf_ls_files(pattern = "sim2_data") %>%
+  osf_download(path = "./data/eha_tutorial/sim2/")
+```
+
+ok, that works.
+
+
+## test out a loop to check if the folder and file exists ##
+
+```{r}
+output_dir <- here("data/eha_tutorial/test2/")
+
+if (!dir.exists(here(output_dir))) {
+  dir.create(here(output_dir))
+}
+
+file_name <- here("data/eha_tutorial/test2/sim2_data.csv")
+
+if (!file.exists(here(file_name))) {
+  osf_retrieve_node("3dbcs") %>% 
+  osf_ls_files(pattern = "Tutorial_4_planning") %>%
+  osf_ls_files(pattern = "data") %>%
+  osf_ls_files(pattern = "sim2") %>%
+  osf_ls_files(pattern = "sim2_data") %>%
+  osf_download(path = output_dir)
+}
+```
 
